@@ -203,7 +203,9 @@ class Instance(object):
             ports += ["--network", self.network.get("mode", "none")]
 
         for pair in self.ports:
-            ports += ["--network-args", '"portmap=%s/tcp"' % pair]
+            portmap = f"portmap={pair}"
+            portmap += "/tcp" if "/tcp" not in pair and "/udp" not in pair else ""
+            ports += ["--network-args", f'"{portmap}"']
 
         # Ask for a custom ip address
         if ip_address is not None and self.network["allocate_ip"]:

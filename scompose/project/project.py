@@ -525,6 +525,10 @@ class Project(object):
                 # Create a hosts file for the instance based, add as volume
                 instance.volumes.append("%s:/etc/hosts" % hosts_file)
 
+            # overwrite writable_tmpfs if writable is passed as a start opt
+            if "--writable" in instance.start_opts:
+                writable_tmpfs = False
+
             # If we get here, execute command and add to list
             create_func = getattr(instance, command)
             create_func(
