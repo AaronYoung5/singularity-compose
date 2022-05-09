@@ -200,7 +200,7 @@ class Instance(object):
 
         # If not sudo or fakeroot, we need --network none
         if not self.sudo and not fakeroot:
-            ports += ["--network", "none"]
+            ports += ["--network", self.network.get("mode", "none")]
 
         for pair in self.ports:
             ports += ["--network-args", '"portmap=%s/tcp"' % pair]
@@ -294,10 +294,6 @@ class Instance(object):
         Otherwise, pull a container uri to the instance workspace.
         """
         sif_binary = self.get_image()
-
-        # If the final image already exists, don't continue
-        if os.path.exists(sif_binary):
-            return
 
         # Case 1: Given an image
         if self.image is not None:

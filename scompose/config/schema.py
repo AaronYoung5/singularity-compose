@@ -107,6 +107,7 @@ instance = {
         "exec": instance_exec,
         "run": {"oneOf": [instance_run, {"type": "array"}]},
         "post": instance_post,
+        "sudo_override": {"type": "bool"}
     },
 }
 

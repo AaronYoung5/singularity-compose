@@ -181,6 +181,7 @@ class Project(object):
             for name in self.config.get("instances", []):
                 params = self.config["instances"][name]
                 start_options = params.get("start", {}).get("options", {})
+                sudo_override = params.get("sudo_override", True)
 
                 # If we have fakeroot, don't use sudo
                 if (
@@ -188,7 +189,7 @@ class Project(object):
                     and "fakeroot" not in start_options
                     and "f" not in start_options
                 ):
-                    self.sudo = True
+                    self.sudo = sudo_override
 
             # Create each instance object
             for name in self.config.get("instances", []):
